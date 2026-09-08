@@ -35,4 +35,4 @@ greet("홍길동")
 
 ## 링크와 이미지
 
-[Google로 가기](https://www.google.com)
+<img width="487" height="377" alt="image" src="https://github.com/user-attachments/assets/14b21e06-533f-4ce2-b91f-da1cbef9f4a3" />
