@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="가천대학교 2026-2 AI와 스타트업 문제해결 3팀. 문제를 찾고, 작게 만들고, 빠르게 검증합니다." />
+  <title>Team 3 · AI와 스타트업 문제해결</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>" />
+</head>
+<body>
+  <a class="skip-link" href="#main">본문으로 건너뛰기</a>
+
+  <header class="site-header" id="top">
+    <div class="container header-inner">
+      <a class="brand" href="#top" aria-label="Team 3 홈">
+        <span class="brand-mark">3</span>
+        <span class="brand-text">Team 3</span>
+      </a>
+
+      <nav class="site-nav" aria-label="주요 메뉴">
+        <button class="nav-toggle" aria-expanded="false" aria-controls="nav-list" aria-label="메뉴 열기">
+          <span></span><span></span><span></span>
+        </button>
+        <ul class="nav-list" id="nav-list">
+          <li><a href="#project">프로젝트</a></li>
+          <li><a href="#team">팀원</a></li>
+          <li><a href="#process">일하는 방식</a></li>
+          <li><a href="#roadmap">로드맵</a></li>
+          <li><a href="#links">링크</a></li>
+          <li>
+            <button class="theme-toggle" type="button" aria-label="테마 전환" title="테마 전환">
+              <span class="theme-icon" aria-hidden="true">🌙</span>
+            </button>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- Hero -->
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-bg" aria-hidden="true">
+        <span class="blob blob-1"></span>
+        <span class="blob blob-2"></span>
+        <span class="grid-lines"></span>
+      </div>
+      <div class="container hero-inner">
+        <p class="eyebrow reveal">2026-2 가천대학교 · AI와 스타트업 문제해결</p>
+        <h1 id="hero-title" class="hero-title reveal">
+          문제를 찾고,<br />
+          <span class="gradient-text">작게 만들고,</span><br />
+          빠르게 검증합니다.
+        </h1>
+        <p class="hero-lead reveal">
+          Team 3는 AI를 활용해 실제 사용자의 문제를 해결하는 스타트업형 팀 프로젝트를 진행합니다.
+          기술이 아니라 사람의 불편함에서 출발하고, 1주 스프린트로 만들고 배우는 팀입니다.
+        </p>
+        <div class="hero-actions reveal">
+          <a class="btn btn-primary" href="#project">프로젝트 보기</a>
+          <a class="btn btn-ghost" href="https://github.com/ghlee050505-web/3-Team" target="_blank" rel="noopener">
+            GitHub 저장소 ↗
+          </a>
+        </div>
+
+        <dl class="hero-stats reveal" aria-label="팀 현황">
+          <div class="stat">
+            <dt>주제 확정까지</dt>
+            <dd><span id="dday">D-?</span></dd>
+          </div>
+          <div class="stat">
+            <dt>현재 스프린트</dt>
+            <dd id="sprint">Sprint 1</dd>
+          </div>
+          <div class="stat">
+            <dt>열린 이슈</dt>
+            <dd id="open-issues">–</dd>
+          </div>
+          <div class="stat">
+            <dt>팀원</dt>
+            <dd id="member-count">3</dd>
+          </div>
+        </dl>
+      </div>
+    </section>
+
+    <!-- Project -->
+    <section class="section" id="project" aria-labelledby="project-title">
+      <div class="container">
+        <div class="section-head reveal">
+          <p class="eyebrow">Project</p>
+          <h2 id="project-title">프로젝트 개요</h2>
+          <p class="section-lead">
+            구체적인 주제는 1차 마일스톤(2026-09-15)까지 팀 회의를 통해 확정합니다.
+            지금은 후보를 좁혀가며 사용자 문제를 조사하는 단계입니다.
+          </p>
+        </div>
+
+        <div class="project-grid">
+          <article class="card card-highlight reveal">
+            <span class="badge badge-live">주제 선정 중</span>
+            <h3>한 줄 소개</h3>
+            <p class="card-big">
+              AI를 활용해 실제 사용자의 문제를 찾고, 작게 만들고, 빠르게 검증하는 스타트업형 팀 프로젝트
+            </p>
+            <p class="muted">주제가 확정되면 이 섹션이 해결하려는 문제, 대상 사용자, 핵심 기능으로 채워집니다.</p>
+          </article>
+
+          <article class="card reveal">
+            <h3>주제 후보</h3>
+            <ul class="candidate-list" id="candidate-list"></ul>
+            <p class="muted small">사용자 인터뷰 결과에 따라 변경될 수 있습니다.</p>
+          </article>
+
+          <article class="card reveal">
+            <h3>핵심 가치</h3>
+            <ul class="value-list">
+              <li>
+                <span class="value-icon" aria-hidden="true">🔍</span>
+                <div><strong>문제 중심</strong><p>기술이 아니라 사용자의 문제에서 출발합니다.</p></div>
+              </li>
+              <li>
+                <span class="value-icon" aria-hidden="true">⚡</span>
+                <div><strong>작게, 빠르게</strong><p>스프린트 단위로 만들고 검증합니다.</p></div>
+              </li>
+              <li>
+                <span class="value-icon" aria-hidden="true">🪟</span>
+                <div><strong>투명한 협업</strong><p>모든 작업은 이슈로 남기고 칸반 보드에서 공유합니다.</p></div>
+              </li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Team -->
+    <section class="section section-alt" id="team" aria-labelledby="team-title">
+      <div class="container">
+        <div class="section-head reveal">
+          <p class="eyebrow">Team</p>
+          <h2 id="team-title">팀원 소개</h2>
+          <p class="section-lead">역할은 주제 확정 후 다시 조정합니다.</p>
+        </div>
+        <div class="team-grid" id="team-grid"></div>
+      </div>
+    </section>
+
+    <!-- Process -->
+    <section class="section" id="process" aria-labelledby="process-title">
+      <div class="container">
+        <div class="section-head reveal">
+          <p class="eyebrow">How we work</p>
+          <h2 id="process-title">우리가 일하는 방식</h2>
+          <p class="section-lead">수업에서 배운 애자일 요소를 팀 운영에 그대로 적용합니다.</p>
+        </div>
+
+        <ol class="process-steps">
+          <li class="step reveal">
+            <span class="step-num">01</span>
+            <h3>1주 스프린트</h3>
+            <p>매주 화요일 수업 시간에 리뷰와 회고(Pursue · Pivot · Pause)를 진행합니다.</p>
+          </li>
+          <li class="step reveal">
+            <span class="step-num">02</span>
+            <h3>칸반 보드</h3>
+            <p>GitHub Projects를 사용합니다.</p>
+            <div class="kanban-mini" aria-label="칸반 컬럼">
+              <span>Backlog</span><span>Ready</span><span>In progress</span><span>Done</span>
+            </div>
+          </li>
+          <li class="step reveal">
+            <span class="step-num">03</span>
+            <h3>마크다운 이슈</h3>
+            <p>모든 작업은 작업 내용 · 완료 조건 · 관련 리소스를 갖춘 이슈로 등록하고 마일스톤을 지정합니다.</p>
+          </li>
+          <li class="step reveal">
+            <span class="step-num">04</span>
+            <h3>Daily Scrum</h3>
+            <p>슬랙에 "어제 한 일 / 오늘 할 일 / 막힌 것" 세 줄로 공유합니다.</p>
+          </li>
+          <li class="step reveal">
+            <span class="step-num">05</span>
+            <h3>회의록 &amp; Next step</h3>
+            <p>모든 회의는 저장소의 회의록 폴더에 남기고, 마지막에는 담당자와 기한이 있는 Next step을 적습니다.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- Roadmap -->
+    <section class="section section-alt" id="roadmap" aria-labelledby="roadmap-title">
+      <div class="container">
+        <div class="section-head reveal">
+          <p class="eyebrow">Roadmap</p>
+          <h2 id="roadmap-title">로드맵 · 마일스톤</h2>
+          <p class="section-lead">굵직한 목표는 마일스톤으로 묶고, 모든 이슈에 마일스톤을 지정합니다.</p>
+        </div>
+        <ol class="timeline" id="timeline"></ol>
+      </div>
+    </section>
+
+    <!-- Links -->
+    <section class="section" id="links" aria-labelledby="links-title">
+      <div class="container">
+        <div class="section-head reveal">
+          <p class="eyebrow">Links</p>
+          <h2 id="links-title">함께 보기</h2>
+        </div>
+        <div class="link-grid">
+          <a class="link-card reveal" href="https://github.com/ghlee050505-web/3-Team" target="_blank" rel="noopener">
+            <span class="link-icon" aria-hidden="true">📦</span>
+            <strong>GitHub 저장소</strong>
+            <p>README, 랜딩 페이지 소스, 회의록</p>
+          </a>
+          <a class="link-card reveal" id="kanban-link" href="https://github.com/ghlee050505-web/3-Team/projects" target="_blank" rel="noopener">
+            <span class="link-icon" aria-hidden="true">🗂️</span>
+            <strong>칸반 보드</strong>
+            <p>Backlog · Ready · In progress · Done</p>
+          </a>
+          <a class="link-card reveal" href="https://github.com/ghlee050505-web/3-Team/milestones" target="_blank" rel="noopener">
+            <span class="link-icon" aria-hidden="true">🏁</span>
+            <strong>마일스톤</strong>
+            <p>M1 팀 셋업 &amp; 주제 선정부터 최종 발표까지</p>
+          </a>
+          <a class="link-card reveal" href="https://github.com/ghlee050505-web/3-Team/tree/main/%ED%9A%8C%EC%9D%98%EB%A1%9D" target="_blank" rel="noopener">
+            <span class="link-icon" aria-hidden="true">📝</span>
+            <strong>회의록</strong>
+            <p>날짜별 회의 기록과 Next step</p>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>© 2026 Team 3 · 가천대학교 AI와 스타트업 문제해결</p>
+      <p class="muted small">HTML · CSS · JavaScript로 만들고 GitHub Pages로 배포했습니다.</p>
+      <a class="to-top" href="#top" aria-label="맨 위로">↑</a>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
