@@ -1,0 +1,295 @@
+/* =========================================================================
+   THE CREW — 각 팀원 = 하나의 캐릭터 등장 장면
+   ========================================================================= */
+
+.crew { position: relative; }
+
+.member {
+  --bg: var(--ink);
+  --fg: var(--cream);
+  --dim: var(--cream-dim);
+  --line: rgba(242, 237, 227, .16);
+  --sil: #2B2825;
+  position: relative;
+  min-height: 100vh;
+  min-height: 100svh;
+  padding: calc(var(--hud-h) + 1.5rem) var(--pad) calc(var(--pad) + 1.5rem);
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  background: var(--bg);
+  color: var(--fg);
+  isolation: isolate;
+}
+.member.theme-cream {
+  --bg: var(--cream);
+  --fg: var(--ink);
+  --dim: var(--ink-dim);
+  --line: rgba(15, 14, 13, .16);
+  --sil: #CFC6B3;
+}
+/* 미세한 코믹 하프톤 배경 */
+.member::before {
+  content: "";
+  position: absolute; inset: 0;
+  z-index: -1;
+  background-image: radial-gradient(var(--line) 1px, transparent 1.5px);
+  background-size: 11px 11px;
+  -webkit-mask-image: radial-gradient(70% 70% at 75% 55%, #000, transparent 70%);
+          mask-image: radial-gradient(70% 70% at 75% 55%, #000, transparent 70%);
+  opacity: .9;
+}
+.member--flip::before {
+  -webkit-mask-image: radial-gradient(70% 70% at 25% 55%, #000, transparent 70%);
+          mask-image: radial-gradient(70% 70% at 25% 55%, #000, transparent 70%);
+}
+
+/* ----- 거대한 번호 (포스터 배경) ----- */
+.member__num {
+  position: absolute;
+  z-index: 0;
+  top: 50%;
+  right: calc(var(--pad) * .6);
+  transform: translateY(-50%);
+  font-family: var(--f-display);
+  font-weight: 900;
+  font-variation-settings: "wdth" 62;
+  font-size: min(54vw, 96svh);
+  line-height: .78;
+  letter-spacing: -.06em;
+  color: transparent;
+  -webkit-text-stroke: 1.5px color-mix(in srgb, var(--accent) 55%, transparent);
+  pointer-events: none;
+  user-select: none;
+}
+.member--flip .member__num { right: auto; left: calc(var(--pad) * .6); }
+
+/* ----- layout ----- */
+.member__inner {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 1500px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(2rem, 6vw, 7rem);
+  align-items: center;
+}
+.member:not(.member--flip) .member__portrait { order: 2; }
+.member[data-entrance="impact"] .member__inner { grid-template-columns: minmax(0, .95fr) minmax(0, 1.1fr); }
+
+/* ----- portrait ----- */
+.member__portrait {
+  position: relative;
+  width: 100%;
+  max-width: min(100%, 62svh);
+  aspect-ratio: 4 / 5;
+  justify-self: center;
+}
+.member[data-entrance="impact"] .member__portrait { max-width: min(100%, 70svh); }
+.member__slab {
+  position: absolute;
+  inset: 16% 5% 0 5%;
+  background: var(--accent);
+  transform: rotate(-2.5deg);
+  transform-origin: 50% 100%;
+}
+.member--flip .member__slab { transform: rotate(2.5deg); }
+.member__slab::after {
+  content: "";
+  position: absolute; inset: 0;
+  background-image: radial-gradient(rgba(15,14,13,.28) 1.1px, transparent 1.6px);
+  background-size: 8px 8px;
+  -webkit-mask-image: linear-gradient(to top, #000, transparent 65%);
+          mask-image: linear-gradient(to top, #000, transparent 65%);
+}
+.member__photo { position: absolute; inset: 0; }
+.member__img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: contain;
+  object-position: 50% 100%;
+  filter: drop-shadow(0 28px 36px rgba(0,0,0,.35));
+}
+
+/* placeholder */
+.member__ph { position: absolute; inset: 0; display: flex; align-items: flex-end; justify-content: center; }
+.has-photo .member__ph { display: none; }
+.member__ph .sil { width: 90%; height: auto; }
+.member__ph .sil__body { fill: var(--sil); }
+.member__q {
+  position: absolute;
+  top: 17%; left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--f-serif);
+  font-style: italic;
+  font-size: clamp(4rem, 9vw, 8.5rem);
+  line-height: 1;
+  color: var(--accent);
+}
+.member__phlabel {
+  position: absolute;
+  left: 10%; bottom: 1.1rem;
+  display: grid;
+  gap: .3rem;
+  font-size: .6rem;
+  color: var(--on-accent);
+}
+.member__phlabel code { font-family: var(--f-mono); font-size: .72rem; letter-spacing: .04em; text-transform: none; }
+.member__tag {
+  position: absolute;
+  left: 5%; right: 5%;
+  bottom: -2rem;
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  font-size: .6rem;
+  color: var(--dim);
+}
+
+/* ----- info ----- */
+.member__info { position: relative; min-width: 0; }
+.member__kicker { display: flex; align-items: center; gap: .9rem; color: var(--dim); }
+.member__kicker b { font-weight: 600; color: var(--fg); padding: .2em .5em; background: var(--accent); color: var(--on-accent); }
+.member__kicker .of { opacity: .6; }
+.member__name { margin-top: 1rem; }
+.member__name .en {
+  display: block;
+  font-family: var(--f-display);
+  font-weight: 900;
+  font-variation-settings: "wdth" 108;
+  font-size: clamp(3rem, 7vw, 8rem);
+  line-height: .84;
+  letter-spacing: -.045em;
+  white-space: nowrap;
+}
+.member[data-entrance="impact"] .member__name .en { font-size: clamp(3.2rem, 8.2vw, 9.4rem); }
+.member__name .ko {
+  display: inline-block;
+  margin-top: .9rem;
+  font-family: var(--f-kr);
+  font-weight: 400;
+  font-size: clamp(1.25rem, 2.2vw, 2rem);
+  line-height: 1;
+  padding: .16em .38em .08em;
+  background: var(--accent);
+  color: var(--on-accent);
+  transform: rotate(-3deg);
+}
+
+.member__spec { margin-top: clamp(1.4rem, 3vw, 2.4rem); border-top: 1px solid var(--line); }
+.member__spec .row {
+  display: grid;
+  grid-template-columns: 7.2rem minmax(0, 1fr);
+  gap: 1rem;
+  align-items: baseline;
+  padding: .8rem 0;
+  border-bottom: 1px solid var(--line);
+}
+.member__spec dt { font-family: var(--f-mono); font-size: .64rem; letter-spacing: .16em; color: var(--dim); }
+.member__spec dd { font-size: clamp(.95rem, 1.15vw, 1.08rem); font-weight: 500; line-height: 1.45; }
+.member__spec strong {
+  font-family: var(--f-serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 1.6em;
+  line-height: 1;
+  color: var(--fg);
+  margin-right: .3rem;
+}
+.member__spec .dim { color: var(--dim); font-weight: 400; font-size: .92em; }
+
+.member__quote { margin-top: 1.6rem; }
+.member__quote .label { color: var(--dim); }
+.member__quote p {
+  margin-top: .55rem;
+  font-weight: 700;
+  font-size: clamp(1.25rem, 2.1vw, 1.95rem);
+  line-height: 1.3;
+  letter-spacing: -.03em;
+}
+.member__quote .qm { font-family: var(--f-serif); font-weight: 400; color: var(--accent); font-size: 1.3em; line-height: 0; }
+.theme-cream .member__quote .qm { color: var(--violet); }
+
+.member__stats { margin-top: 1.6rem; display: grid; gap: .6rem; max-width: 34rem; }
+.member__stats li {
+  display: grid;
+  grid-template-columns: 9.5rem minmax(0, 1fr) 2.8rem;
+  gap: .9rem;
+  align-items: center;
+  font-size: .8rem;
+}
+.member__stats .k { color: var(--dim); }
+.member__stats .bar { position: relative; height: 5px; background: var(--line); overflow: hidden; }
+.member__stats .bar i { position: absolute; inset: 0; background: var(--accent); transform-origin: left; transform: scaleX(var(--v)); }
+.member__stats b { font-family: var(--f-mono); font-weight: 600; font-size: .74rem; text-align: right; }
+
+/* ===== ENTRANCE FX LAYERS ===== */
+
+/* 01 · slide — 속도선 */
+.speedlines { position: absolute; inset: 0; z-index: 3; pointer-events: none; overflow: hidden; }
+.speedlines i { position: absolute; right: 0; background: var(--accent); opacity: 0; transform-origin: right; }
+.speedlines i:nth-child(3n) { background: var(--cream); }
+
+/* 02 · zoom — 카메라 뷰파인더 */
+.viewfinder { position: absolute; inset: -5% -4% -3%; z-index: 3; pointer-events: none; color: var(--fg); }
+.viewfinder i { position: absolute; width: 34px; height: 34px; border: 0 solid currentColor; }
+.viewfinder i:nth-child(1) { top: 0; left: 0; border-width: 1.5px 0 0 1.5px; }
+.viewfinder i:nth-child(2) { top: 0; right: 0; border-width: 1.5px 1.5px 0 0; }
+.viewfinder i:nth-child(3) { bottom: 0; left: 0; border-width: 0 0 1.5px 1.5px; }
+.viewfinder i:nth-child(4) { bottom: 0; right: 0; border-width: 0 1.5px 1.5px 0; }
+.vf-cross { position: absolute; left: 50%; top: 38%; width: 22px; height: 22px; margin: -11px; }
+.vf-cross::before, .vf-cross::after { content: ""; position: absolute; background: currentColor; }
+.vf-cross::before { left: 50%; top: 0; bottom: 0; width: 1px; }
+.vf-cross::after { top: 50%; left: 0; right: 0; height: 1px; }
+.vf-readout { position: absolute; top: .7rem; left: 2.8rem; font-size: .58rem; }
+.vf-readout em { font-family: var(--f-mono); font-style: normal; color: var(--violet); font-weight: 600; }
+
+/* 03 · impact — 플래시 + 하프톤 충격파 + 도장 */
+.impact { position: absolute; inset: 0; z-index: 5; pointer-events: none; overflow: hidden; }
+.impact .flash { position: absolute; inset: 0; background: var(--acid); opacity: 0; }
+.impact .burst {
+  position: absolute;
+  left: 72%; top: 50%;
+  width: 140vmax; height: 140vmax;
+  margin: -70vmax 0 0 -70vmax;
+  background-image: radial-gradient(var(--acid) 1.4px, transparent 2px);
+  background-size: 12px 12px;
+  -webkit-mask-image: radial-gradient(circle, transparent 18%, #000 22%, #000 30%, transparent 44%);
+          mask-image: radial-gradient(circle, transparent 18%, #000 22%, #000 30%, transparent 44%);
+  opacity: 0;
+}
+.member__stamp {
+  position: absolute;
+  z-index: 4;
+  right: 7%;
+  top: calc(var(--hud-h) + 4%);
+  padding: .5em .7em .42em;
+  border: 3px solid var(--accent);
+  color: var(--accent);
+  font-family: var(--f-display);
+  font-weight: 900;
+  font-variation-settings: "wdth" 78;
+  font-size: clamp(.9rem, 1.7vw, 1.5rem);
+  line-height: .95;
+  letter-spacing: .02em;
+  transform: rotate(-9deg);
+  pointer-events: none;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 899px) {
+  .member { padding-top: calc(var(--hud-h) + 1rem); padding-bottom: calc(var(--pad) + 2.5rem); min-height: auto; }
+  .member__inner, .member[data-entrance="impact"] .member__inner { grid-template-columns: 1fr; gap: 3.4rem; }
+  .member:not(.member--flip) .member__portrait { order: 0; }
+  .member__portrait, .member[data-entrance="impact"] .member__portrait { max-width: min(86vw, 58svh); }
+  .member__num { top: calc(var(--hud-h) + 2vh); transform: none; font-size: 70vw; right: 0; }
+  .member--flip .member__num { left: 0; }
+  .member__stamp { top: auto; bottom: 46%; right: 5%; }
+}
+@media (max-width: 520px) {
+  .member__spec .row { grid-template-columns: 5.6rem minmax(0, 1fr); gap: .7rem; }
+  .member__stats li { grid-template-columns: 7.6rem minmax(0, 1fr) 2.4rem; gap: .6rem; font-size: .74rem; }
+  .member__tag span:last-child { display: none; }
+}

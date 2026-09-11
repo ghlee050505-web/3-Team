@@ -6,6 +6,7 @@
 | 구분 | 링크 |
 |---|---|
 | 랜딩 페이지 | https://ghlee050505-web.github.io/3-Team/ |
+| 랜딩 페이지 (코코단) | https://ghlee050505-web.github.io/3-Team/kokodan/ |
 | 칸반 보드 | https://github.com/users/ygrcap1234-byte/projects/3 |
 | 마일스톤 | https://github.com/ghlee050505-web/3-Team/milestones |
 | 이슈 | https://github.com/ghlee050505-web/3-Team/issues |

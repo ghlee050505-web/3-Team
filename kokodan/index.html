@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>KOKODAN — 코코단</title>
+  <meta name="description" content="세상을 구하러 온 건 아니고, 일단 재미있는 걸 만들러 왔습니다. 코코단 팀 소개.">
+  <meta name="theme-color" content="#0F0E0D">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 42 28'%3E%3Cpath d='M3 26 11 2h6L9 26Z' fill='%23FF3B6B'/%3E%3Cpath d='M14 26 22 2h6l-8 24Z' fill='%23F2EDE3'/%3E%3Cpath d='M25 26 33 2h6l-8 24Z' fill='%23C9FF3B'/%3E%3C/svg%3E">
+  <script>
+    document.documentElement.classList.add('js');
+    // 오프닝은 항상 맨 위에서 — 새로고침 시 스크롤 위치 복원 끄기 (최대한 일찍 설정해야 함)
+    if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+  </script>
+
+  <!-- Fonts: Archivo (variable width display) · Black Han Sans (KR display) · Instrument Serif · JetBrains Mono · Pretendard -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,300..900;1,62..125,300..900&family=Black+Han+Sans&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;600&display=swap">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/hero.css">
+  <link rel="stylesheet" href="css/crew.css">
+  <link rel="stylesheet" href="css/story.css">
+</head>
+<body>
+
+  <!-- 필름 그레인 + 커스텀 커서 (장식용) -->
+  <div class="grain" aria-hidden="true"></div>
+  <div class="cursor" aria-hidden="true"><span class="cursor__ring"></span><span class="cursor__label"></span></div>
+
+  <!-- ======================================================
+       HUD (상단 고정 바) — 최소한의 UI
+       ====================================================== -->
+  <header class="hud" id="hud">
+    <a class="hud__logo" href="#top" aria-label="KOKODAN 처음으로">
+      <svg class="mark" viewBox="0 0 42 28" aria-hidden="true">
+        <path d="M3 26 11 2h6L9 26Z" fill="var(--hot)"/>
+        <path d="M14 26 22 2h6l-8 24Z" fill="currentColor"/>
+        <path d="M25 26 33 2h6l-8 24Z" fill="var(--acid)"/>
+      </svg>
+      <span>KOKODAN</span>
+    </a>
+    <div class="hud__right">
+      <span class="hud__section" id="hudSection">COLD OPEN</span>
+      <span class="hud__bar"><i id="hudProgress"></i></span>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ======================================================
+         01 · HERO — 풀스크린 팀 영상
+         ====================================================== -->
+    <section class="hero" id="top" data-section="COLD OPEN">
+      <div class="hero__media" id="heroMedia">
+
+        <!-- ===== HERO VIDEO =====
+             영상 교체: assets/team-video.mp4 파일만 넣으면 자동 재생됩니다.
+             (다른 이름/형식을 쓰려면 아래 src 를 바꾸세요. poster="assets/hero-poster.jpg" 추가 가능) -->
+        <video class="hero__video" id="heroVideo" muted playsinline preload="auto">
+          <source src="assets/team-video.mp4" type="video/mp4">
+        </video>
+
+        <!-- VIDEO PLACEHOLDER — 영상 파일이 없을 때만 보입니다 -->
+        <div class="hero__placeholder" aria-hidden="true">
+          <div class="ph-film">
+            <span class="ph-blob ph-blob--a"></span>
+            <span class="ph-blob ph-blob--b"></span>
+            <span class="ph-blob ph-blob--c"></span>
+          </div>
+          <div class="ph-dots"></div>
+          <div class="ph-frame"><i></i><i></i><i></i><i></i></div>
+          <div class="ph-label">
+            <span class="ph-rec"><b></b> REC — PLACEHOLDER</span>
+            <strong>VIDEO<br>PLACEHOLDER</strong>
+            <code>assets/team-video.mp4</code>
+            <span class="ph-hint">이 파일을 넣으면 여기서 팀 영상이 재생됩니다</span>
+          </div>
+        </div>
+
+        <div class="hero__shade"></div>
+      </div>
+
+      <!-- ===== HERO COPY : 콜드 오픈 (영상 시작 전) ===== -->
+      <div class="coldopen" id="coldopen" aria-hidden="true">
+        <p class="coldopen__kicker">WHO ARE WE?</p>
+        <p class="coldopen__line">누가 <em>코코단</em>을<br>불렀는가?</p>
+      </div>
+
+      <!-- 최소 메타 정보 -->
+      <div class="hero__meta" aria-hidden="true">
+        <span>FILE №.KKD-001</span>
+        <span class="hero__timecode" id="heroTimecode">00:00:00</span>
+      </div>
+
+      <!-- ===== HERO COPY : 타이틀 (영상 끝부분에 등장) ===== -->
+      <div class="hero__title" id="heroTitle">
+        <h1 class="title">
+          <span class="title__en" data-glitch="KOKODAN" aria-label="KOKODAN">KOKODAN</span>
+          <span class="title__ko">코코단</span>
+        </h1>
+        <p class="hero__tagline">
+          <span class="line"><span>세상을 구하러 온 건 아니고,</span></span>
+          <span class="line"><span>일단 <em>재미있는 걸</em> 만들러 왔습니다.</span></span>
+        </p>
+      </div>
+
+      <div class="hero__controls">
+        <button class="ctl" id="playToggle" type="button" data-cursor="PAUSE">PAUSE</button>
+        <button class="ctl" id="soundToggle" type="button" data-cursor="SOUND">SOUND <b>OFF</b></button>
+        <button class="ctl" id="skipBtn" type="button" data-cursor="SKIP">SKIP ▸</button>
+      </div>
+
+      <div class="hero__progress" aria-hidden="true"><i id="heroProgress"></i></div>
+
+      <a class="hero__scroll" href="#interlude" data-cursor="GO">
+        <span>SCROLL</span><span class="hero__scroll-line"></span><span class="ko">계속 보시겠습니까?</span>
+      </a>
+    </section>
+
+    <!-- 경고 테이프 (섹션 전환) -->
+    <div class="tapes" aria-hidden="true">
+      <div class="tape tape--a"><div class="tape__track">
+        <span>주의: 코코단 출몰 지역 ✺ CAUTION — VILLAINS AT WORK (NOT REALLY) ✺ 주의: 코코단 출몰 지역 ✺ CAUTION — VILLAINS AT WORK (NOT REALLY) ✺&nbsp;</span>
+        <span>주의: 코코단 출몰 지역 ✺ CAUTION — VILLAINS AT WORK (NOT REALLY) ✺ 주의: 코코단 출몰 지역 ✺ CAUTION — VILLAINS AT WORK (NOT REALLY) ✺&nbsp;</span>
+      </div></div>
+      <div class="tape tape--b"><div class="tape__track">
+        <span>SOMETHING IS BEING PLOTTED ✺ 무언가 꾸미는 중 ✺ SOMETHING IS BEING PLOTTED ✺ 무언가 꾸미는 중 ✺ SOMETHING IS BEING PLOTTED ✺ 무언가 꾸미는 중 ✺&nbsp;</span>
+        <span>SOMETHING IS BEING PLOTTED ✺ 무언가 꾸미는 중 ✺ SOMETHING IS BEING PLOTTED ✺ 무언가 꾸미는 중 ✺ SOMETHING IS BEING PLOTTED ✺ 무언가 꾸미는 중 ✺&nbsp;</span>
+      </div></div>
+    </div>
+
+    <!-- ======================================================
+         02 · INTERLUDE — "근데 얘네가 누구냐고?" → MEET THE CREW
+         ====================================================== -->
+    <section class="interlude" id="interlude" data-section="WHO?">
+      <div class="interlude__pin">
+        <div class="interlude__ask">
+          <p class="interlude__q">
+            <span class="w"><span>근데</span></span>
+            <span class="w"><span>얘네가</span></span>
+            <span class="w"><span><em>누구냐고?</em></span></span>
+          </p>
+          <p class="interlude__sub">(좋은 질문입니다. 저희도 가끔 궁금합니다.)</p>
+        </div>
+        <h2 class="interlude__meet" aria-label="Meet the crew">
+          <span>MEET</span><span class="serif">the</span><span>CREW</span>
+        </h2>
+        <p class="interlude__count label">3 SUSPECTS · 0 PERMISSIONS · ∞ IDEAS</p>
+      </div>
+    </section>
+
+    <!-- ======================================================
+         03 · THE CREW — 팀원 3명 (내용은 js/content.js 에서 수정)
+         ====================================================== -->
+    <section class="crew" id="crew" aria-label="팀원 소개">
+      <div id="crewMount"></div>
+      <noscript><p style="padding:4rem">팀원 소개는 JavaScript가 필요합니다.</p></noscript>
+    </section>
+
+    <!-- ======================================================
+         04 · MISSION FILE — "그래서 코코단은 뭘 하는데?"
+         ====================================================== -->
+    <section class="missions" id="missions" data-section="MISSION FILE" data-hud="light">
+      <div class="dossier">
+        <div class="dossier__bar label">
+          <span>MISSION FILE</span><span>KKD / OPS / 2026</span><span>PAGE 1 OF 1 (다른 페이지 없음)</span>
+        </div>
+        <div class="missions__head">
+          <p class="label">BRIEFING · 읽고 나서 폭파되지 않음</p>
+          <h2 class="missions__title">
+            <span class="line"><span>그래서 코코단은</span></span>
+            <span class="line"><span><em>뭘 하는데?</em></span></span>
+          </h2>
+          <div class="stamp" aria-hidden="true">CLASSIFIED<small>*별로 기밀 아님</small></div>
+        </div>
+        <ol class="ops" id="opsMount"></ol>
+        <p class="missions__foot label">※ 본 문서는 멋있어 보이려고 만든 것이며, 실제 군사 기밀과는 아무 관련이 없습니다.</p>
+      </div>
+    </section>
+
+    <!-- ======================================================
+         05 · CHEMISTRY — 단체사진 + 떠다니는 낙서
+         ====================================================== -->
+    <section class="chem" id="chem" data-section="CHEMISTRY">
+      <div class="chem__head">
+        <p class="label">EXHIBIT C — 현장 포착</p>
+        <h2 class="chem__title">셋이 모이면<br><em>대충 이런 느낌.</em></h2>
+      </div>
+
+      <div class="chem__stage" id="chemStage">
+        <!-- ===== TEAM PHOTO ===== 경로는 js/content.js 의 chemistry.photo -->
+        <figure class="chem__photo" data-depth="0.25" id="chemPhoto"></figure>
+        <!-- 떠다니는 라벨들은 js/content.js 의 chemistry.labels 에서 수정 -->
+        <div class="chem__doodles" id="chemDoodles"></div>
+      </div>
+
+      <div class="chem__formula" aria-label="아메드 더하기 김동규 더하기 이가현은 뭔가 됨">
+        <span>AHMED</span><i>+</i><span>DONGKYU</span><i>+</i><span>GAHYUN</span><i>=</i><span class="chem__result">뭔가 됨.</span>
+      </div>
+      <ul class="chem__stats" id="chemStats"></ul>
+    </section>
+
+    <!-- ======================================================
+         06 · ENDING — WE ARE KOKODAN.
+         ====================================================== -->
+    <section class="ending" id="ending" data-section="THE END?">
+      <div class="ending__pin">
+        <!-- ===== ENDING COPY ===== -->
+        <h2 class="ending__title" aria-label="We are KOKODAN.">
+          <span class="ending__we">We are</span>
+          <span class="ending__name">KOKODAN<b>.</b></span>
+        </h2>
+        <p class="ending__line">코코단은 오늘도 <em>무언가를</em> 꾸미고 있습니다.</p>
+
+        <div class="egg">
+          <button class="tbc" id="tbc" type="button" aria-expanded="false" aria-controls="eggPanel" data-cursor="???">To be continued...</button>
+          <!-- ===== EASTER EGG ===== 문구는 js/content.js 의 easterEgg -->
+          <div class="egg__panel" id="eggPanel" hidden>
+            <p class="egg__q" id="eggQ"></p>
+            <div class="egg__btns">
+              <button class="egg__btn egg__btn--yes" id="eggYes" type="button"></button>
+              <button class="egg__btn egg__btn--no" id="eggNo" type="button"></button>
+            </div>
+            <div class="egg__result" id="eggResult" aria-live="polite"></div>
+          </div>
+        </div>
+      </div>
+
+      <footer class="credits">
+        <div class="credits__roll label">
+          <p><span>DIRECTED BY</span>코코단</p>
+          <p><span>STARRING</span>아메드 · 김동규 · 이가현</p>
+          <p><span>CATERING</span>편의점 삼각김밥</p>
+          <p><span>SPECIAL THANKS</span>끝까지 스크롤한 당신</p>
+        </div>
+        <p class="credits__legal label">NO HEROES WERE HARMED IN THE MAKING OF THIS WEBSITE · © 2026 KOKODAN</p>
+      </footer>
+    </section>
+
+  </main>
+
+  <!-- Libraries (없어도 페이지는 동작합니다 — 애니메이션만 단순해짐) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+
+  <!-- Site scripts -->
+  <script src="js/content.js"></script>   <!-- ← 텍스트 & 사진 경로 수정은 여기 -->
+  <script src="js/render.js"></script>
+  <script src="js/fx.js"></script>
+  <script src="js/hero.js"></script>
+  <script src="js/scenes.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
