@@ -61,7 +61,7 @@
       .to(count, { autoAlpha: 1, duration: .3 }, '-=.2')
       .to({}, { duration: .45 })
       // 카메라가 글자를 뚫고 지나가듯 → 첫 멤버로
-      .to(meet, { scale: 7, autoAlpha: 0, duration: .8, ease: 'power2.in' })
+      .to(meet, { scale: FX.gentle ? 1.4 : 7, autoAlpha: 0, duration: .8, ease: 'power2.in' })
       .to(count, { autoAlpha: 0, duration: .3 }, '<');
   }
 
@@ -134,7 +134,7 @@
       .fromTo($('.impact .flash', m), { autoAlpha: 0 }, { autoAlpha: .85, duration: .06, ease: 'none' }, .4)
       .to($('.impact .flash', m), { autoAlpha: 0, duration: .5, ease: 'power2.out' }, .46)
       .fromTo($('.impact .burst', m), { scale: .2, autoAlpha: 1 }, { scale: 1.3, autoAlpha: 0, duration: 1.2, ease: 'expo.out' }, .42);
-    if (desktop) {
+    if (desktop && !FX.gentle) { // 화면 흔들림은 '동작 줄이기'면 생략
       tl.to(inner, { keyframes: { x: [-16, 13, -9, 6, -3, 0], y: [9, -11, 6, -4, 2, 0] }, duration: .45, ease: 'none' }, .42);
     }
     tl.from(chars, { yPercent: -140, autoAlpha: 0, stagger: .05, duration: .55, ease: 'back.out(3)' }, .55)
@@ -153,7 +153,7 @@
         scrollTrigger: { trigger: m, start: 'top bottom', end: 'bottom top', scrub: true }
       });
       // 다음 장면으로 넘어갈 때 살짝 물러나는 깊이감
-      if (desktop) {
+      if (desktop && !FX.gentle) {
         gsap.fromTo($('.member__inner', m), { scale: 1, autoAlpha: 1 }, {
           scale: .94, autoAlpha: .3, ease: 'none',
           scrollTrigger: { trigger: m, start: 'bottom 70%', end: 'bottom top', scrub: true }
@@ -173,7 +173,7 @@
       .from('.missions__title .line > span', { yPercent: 110, stagger: .12, duration: 1, ease: 'expo.out' }, .1)
       .fromTo('.stamp', { scale: 2.8, autoAlpha: 0, rotate: -28 },
         { scale: 1, autoAlpha: 1, rotate: -8, duration: .35, ease: 'expo.in' }, .7)
-      .to('.dossier', desktop ? { keyframes: { x: [-5, 4, -2, 0] }, duration: .22 } : { duration: 0 }, 1.05);
+      .to('.dossier', desktop && !FX.gentle ? { keyframes: { x: [-5, 4, -2, 0] }, duration: .22 } : { duration: 0 }, 1.05);
 
     $$('.op').forEach((op) => {
       gsap.timeline({ scrollTrigger: { trigger: op, start: 'top 80%', once: true } })
@@ -205,7 +205,7 @@
     $$('.count').forEach((c) => FX.onEnter(c, (el) => FX.countUp(el)));
 
     // 마우스 패럴랙스 — depth 가 클수록 더 많이 움직임 (데스크톱 전용)
-    if (!desktop || !FX.finePointer()) return;
+    if (!desktop || FX.gentle || !FX.finePointer()) return;
     const layers = $$('[data-depth]', stage).map((el) => ({
       d: parseFloat(el.dataset.depth) || 1,
       x: gsap.quickTo(el, 'x', { duration: .9, ease: 'power3.out' }),

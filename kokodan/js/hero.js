@@ -133,7 +133,7 @@
       revealTitle();
     });
 
-    if (FX.reduce) {           // 모션 감소 설정: 자동재생 하지 않음
+    if (FX.reduce) {           // 정적 모드(?motion=off): 자동재생 하지 않음
       el.play.textContent = 'PLAY';
       revealTitle();
       return;

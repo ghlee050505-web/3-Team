@@ -344,6 +344,5 @@
   .hero__scroll .ko, .hero__scroll-line { display: none; }
   .ctl { padding: .6em .7em; }
 }
-@media (prefers-reduced-motion: reduce) {
-  .ph-blob, .tape__track, .hero__scroll-line, .ph-rec b { animation: none; }
-}
+/* 정적 모드 (?motion=off) */
+.motion-off .ph-blob, .motion-off .tape__track, .motion-off .hero__scroll-line, .motion-off .ph-rec b { animation: none; }

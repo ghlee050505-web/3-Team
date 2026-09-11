@@ -7,10 +7,13 @@
   const mq = (q) => window.matchMedia(q).matches;
 
   const FX = {
-    // 모션 감소 설정을 존중. (QA 용: 주소 뒤에 ?motion=full 을 붙이거나
-    //  콘솔에서 localStorage.kkdMotion = 'full' 을 설정하면 강제로 전체 모션)
-    reduce: mq('(prefers-reduced-motion: reduce)') && !/[?&]motion=full\b/.test(location.search) &&
-      (() => { try { return localStorage.getItem('kkdMotion') !== 'full'; } catch (e) { return true; } })(),
+    // ===== MOTION POLICY =====
+    // reduce : 완전 정적 모드 — 주소 뒤에 ?motion=off 를 붙였을 때만.
+    // gentle : 기기의 '동작 줄이기' 설정이 켜져 있을 때. 스크롤 연출은 그대로 보여주고
+    //          멀미를 줄 수 있는 큰 움직임(흔들림·패럴랙스·확대 전환)만 약하게 합니다.
+    //          (?motion=full 을 붙이면 설정과 상관없이 전체 모션)
+    reduce: /[?&]motion=off\b/.test(location.search),
+    gentle: mq('(prefers-reduced-motion: reduce)') && !/[?&]motion=full\b/.test(location.search),
     isDesktop: () => mq('(min-width: 900px)'),
     finePointer: () => mq('(hover: hover) and (pointer: fine)'),
     hasGSAP: () => !!window.gsap,
@@ -204,4 +207,5 @@
   };
 
   window.KKDFX = FX;
+  if (FX.reduce) document.documentElement.classList.add('motion-off'); // CSS 배경 애니메이션도 정지
 })();

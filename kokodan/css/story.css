@@ -476,8 +476,7 @@
   .op__meta { grid-column: auto; }
   .credits__roll { grid-template-columns: 1fr; }
 }
-@media (prefers-reduced-motion: reduce) {
-  .doodle__in { animation: none; }
-  .op--snatch.is-done .op__target-text { animation: none; opacity: 0; }
-  .ending.is-late::after { animation: none; opacity: 0; }
-}
+/* 정적 모드 (?motion=off) */
+.motion-off .doodle__in { animation: none; }
+.motion-off .op--snatch.is-done .op__target-text { animation: none; opacity: 0; }
+.motion-off .ending.is-late::after { animation: none; opacity: 0; }
