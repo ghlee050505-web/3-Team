@@ -44,69 +44,80 @@
 
   <section data-screen-label="00 침입" style="position:relative; z-index:5; height:100vh; min-height:620px; overflow:hidden">
 
-    <sc-if value="{{ phaseNormal }}" hint-placeholder-val="{{ true }}">
-      <div style="position:absolute; inset:0; background:#F6F4F2; color:#14100f; display:flex; flex-direction:column; padding:clamp(20px,4vw,56px); box-sizing:border-box; animation:cd-glitch-soft 3.4s 2.5s infinite">
-        <div style="display:flex; justify-content:space-between; align-items:center; font-family:'Space Mono',monospace; font-size:12px; letter-spacing:.22em; color:#6b6360">
-          <span>GACHON · TEAM PORTFOLIO</span>
-          <span>2026 / 09 / 10</span>
-        </div>
-        <div style="flex:1; display:flex; flex-direction:column; justify-content:center; gap:18px; max-width:900px">
-          <div style="font-family:'Space Mono',monospace; font-size:12px; letter-spacing:.3em; color:#9a9290">01 — INTRODUCTION</div>
-          <h1 style="margin:0; font-family:'Noto Sans KR',sans-serif; font-weight:900; font-size:clamp(38px,7vw,86px); line-height:1.02; letter-spacing:-.03em">TEAM<br>INTRODUCTION</h1>
-          <p style="margin:0; max-width:480px; font-size:15px; line-height:1.9; color:#6b6360; text-wrap:pretty">저희 팀을 소개합니다. 성실하고 협력적인 분위기 속에서 사용자 중심의 결과물을 만들어가고 있습니다.</p>
-          <div style="display:flex; gap:10px; margin-top:8px">
-            <div style="padding:10px 18px; border:1px solid #14100f; font-family:'Space Mono',monospace; font-size:12px; letter-spacing:.14em">VIEW MEMBERS</div>
-            <div style="padding:10px 18px; border:1px solid #c9c3c0; color:#9a9290; font-family:'Space Mono',monospace; font-size:12px; letter-spacing:.14em">CONTACT</div>
-          </div>
-        </div>
-        <div style="align-self:flex-start; margin-bottom:44px; font-family:'Space Mono',monospace; font-size:11px; color:#b3aca9; letter-spacing:.2em">SCROLL TO EXPLORE ↓</div>
-        <div style="position:absolute; inset:0; pointer-events:none; opacity:.5; background:linear-gradient(rgba(255,19,97,.0), rgba(255,19,97,.18), rgba(255,19,97,0)); height:22%; animation:cd-scan 2.6s 2.5s linear infinite backwards"></div>
+    <div style="position:absolute; inset:0; background:#F6F4F2; color:#14100f; display:flex; flex-direction:column; padding:clamp(20px,4vw,56px); box-sizing:border-box; animation:cd-glitch-soft 3.4s 2.5s infinite; {{ normalPhaseStyle }}">
+      <div style="display:flex; justify-content:space-between; align-items:center; font-family:'Space Mono',monospace; font-size:12px; letter-spacing:.22em; color:#6b6360">
+        <span>GACHON · TEAM PORTFOLIO</span>
+        <span>2026 / 09 / 10</span>
       </div>
-    </sc-if>
+      <div style="flex:1; display:flex; flex-direction:column; justify-content:center; gap:18px; max-width:900px">
+        <div style="font-family:'Space Mono',monospace; font-size:12px; letter-spacing:.3em; color:#9a9290">01 — INTRODUCTION</div>
+        <h1 style="margin:0; font-family:'Noto Sans KR',sans-serif; font-weight:900; font-size:clamp(38px,7vw,86px); line-height:1.02; letter-spacing:-.03em">TEAM<br>INTRODUCTION</h1>
+        <p style="margin:0; max-width:480px; font-size:15px; line-height:1.9; color:#6b6360; text-wrap:pretty">저희 팀을 소개합니다. 성실하고 협력적인 분위기 속에서 사용자 중심의 결과물을 만들어가고 있습니다.</p>
+        <div style="display:flex; gap:10px; margin-top:8px">
+          <div style="padding:10px 18px; border:1px solid #14100f; font-family:'Space Mono',monospace; font-size:12px; letter-spacing:.14em">VIEW MEMBERS</div>
+          <div style="padding:10px 18px; border:1px solid #c9c3c0; color:#9a9290; font-family:'Space Mono',monospace; font-size:12px; letter-spacing:.14em">CONTACT</div>
+        </div>
+      </div>
+      <div style="align-self:flex-start; margin-bottom:44px; font-family:'Space Mono',monospace; font-size:11px; color:#b3aca9; letter-spacing:.2em">SCROLL TO EXPLORE ↓</div>
+      <div style="position:absolute; inset:0; pointer-events:none; opacity:.5; background:linear-gradient(rgba(255,19,97,.0), rgba(255,19,97,.18), rgba(255,19,97,0)); height:22%; animation:cd-scan 2.6s 2.5s linear infinite backwards"></div>
+    </div>
 
-    <sc-if value="{{ phaseWarning }}" hint-placeholder-val="{{ false }}">
-      <div style="position:absolute; inset:0; background:#08040a; display:flex; flex-direction:column; justify-content:center; padding:clamp(20px,5vw,80px); box-sizing:border-box; gap:22px">
-        <div style="display:inline-flex; align-items:center; gap:14px; align-self:flex-start; background:#FFE500; color:#08040a; padding:10px 22px; font-family:'Black Han Sans',sans-serif; font-size:clamp(20px,3vw,34px); letter-spacing:.1em; animation:cd-glitch .28s infinite">⚠ WARNING · 시스템 침입 감지</div>
-        <div style="font-family:'Space Mono',monospace; font-size:clamp(11px,1.4vw,15px); line-height:2.1; color:#FF6FA0">
-          <div>&gt; unauthorized access from UNKNOWN_ORBIT ...</div>
-          <div>&gt; firewall.integrity = 0.00%</div>
-          <div>&gt; hostile payload: "COCODAN.exe" injected</div>
-          <div>&gt; team_introduction.html ... <span style="color:#FFE500">OVERWRITTEN</span></div>
-          <div>&gt; 관리자 권한 탈취 완료 <span style="animation:cd-blink 1s steps(1) infinite">█</span></div>
-        </div>
-        <div style="width:min(560px,90%); height:10px; border:1px solid #FF1361; padding:2px">
-          <div style="height:100%; background:#FF1361; width:100%; transition:width .2s"></div>
-        </div>
+    <div style="position:absolute; inset:0; background:#08040a; display:flex; flex-direction:column; justify-content:center; padding:clamp(20px,5vw,80px); box-sizing:border-box; gap:22px; {{ warningPhaseStyle }}">
+      <div style="display:inline-flex; align-items:center; gap:14px; align-self:flex-start; background:#FFE500; color:#08040a; padding:10px 22px; font-family:'Black Han Sans',sans-serif; font-size:clamp(20px,3vw,34px); letter-spacing:.1em; animation:cd-glitch .28s infinite">⚠ WARNING · 시스템 침입 감지</div>
+      <div style="font-family:'Space Mono',monospace; font-size:clamp(11px,1.4vw,15px); line-height:2.1; color:#FF6FA0">
+        <div>&gt; unauthorized access from UNKNOWN_ORBIT ...</div>
+        <div>&gt; firewall.integrity = 0.00%</div>
+        <div>&gt; hostile payload: "COCODAN.exe" injected</div>
+        <div>&gt; team_introduction.html ... <span style="color:#FFE500">OVERWRITTEN</span></div>
+        <div>&gt; 관리자 권한 탈취 완료 <span style="animation:cd-blink 1s steps(1) infinite">█</span></div>
       </div>
-    </sc-if>
+      <div style="width:min(560px,90%); height:10px; border:1px solid #FF1361; padding:2px">
+        <div style="height:100%; background:#FF1361; width:100%; transition:width .2s"></div>
+      </div>
+    </div>
 
-    <sc-if value="{{ phaseRevealed }}" hint-placeholder-val="{{ false }}">
-      <div style="position:absolute; inset:0; display:flex; flex-direction:column; justify-content:center; padding:clamp(20px,5vw,80px); box-sizing:border-box">
-        <div style="position:absolute; top:50%; left:50%; width:min(120vw,1400px); height:min(120vw,1400px); transform:translate(-50%,-50%); border:1px dashed rgba(255,19,97,.35); border-radius:50%; animation:cd-spin 40s linear infinite"></div>
-        <div style="position:relative; display:flex; flex-direction:column; gap:clamp(12px,2vw,20px); max-width:1200px">
-          <div style="display:flex; flex-wrap:wrap; gap:10px; font-family:'Space Mono',monospace; font-size:11px; letter-spacing:.24em">
-            <span style="background:#FF1361; color:#fff; padding:6px 12px">SITE OCCUPIED</span>
-            <span style="border:1px solid #FF1361; color:#FF6FA0; padding:6px 12px">ORBITAL BASE · SECTOR 07</span>
-            <span style="border:1px solid rgba(255,229,0,.6); color:#FFE500; padding:6px 12px">CLEARANCE: NONE</span>
-          </div>
-          <h1 style="margin:0; font-family:'Black Han Sans',sans-serif; font-size:clamp(72px,18vw,240px); line-height:.82; letter-spacing:-.02em; color:#FF1361; text-shadow:6px 6px 0 #08040a, -3px -3px 0 rgba(255,255,255,.9); animation:cd-glitch-soft 5s infinite">코코단</h1>
-          <div style="display:flex; flex-wrap:wrap; align-items:baseline; gap:16px">
-            <span style="font-family:'Space Mono',monospace; font-size:clamp(14px,2.6vw,28px); letter-spacing:.5em; color:#FFE9F0">COCODAN</span>
-            <span style="font-family:'Space Mono',monospace; font-size:12px; letter-spacing:.2em; color:#FF6FA0">비밀 결사 · 우주 규모 팀 소개 조직</span>
-          </div>
-          <p style="margin:0; max-width:620px; font-size:clamp(14px,1.5vw,17px); line-height:1.9; color:#FFD1E1; text-wrap:pretty">이 페이지는 방금 코코단에 의해 점령되었습니다. 원래의 팀 소개는 폐기되었으며, 지금부터 세 명의 요원이 직접 자기소개를 시작합니다. 도망칠 수 없습니다. 스크롤만 가능합니다.</p>
-          <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:6px">
-            <a href="#dossier" style="background:#FF1361; color:#fff; padding:14px 26px; font-family:'Space Mono',monospace; font-size:12px; letter-spacing:.18em; display:inline-block" style-hover="background:#FFE500; color:#08040a; transform:translate(-3px,-3px)">▶ 침입자 DATABASE</a>
-            <a href="#vote" style="border:1px solid #FF1361; color:#FF6FA0; padding:14px 26px; font-family:'Space Mono',monospace; font-size:12px; letter-spacing:.18em; display:inline-block" style-hover="background:#FF1361; color:#fff">투표하러 가기(?)</a>
-          </div>
+    <div style="position:absolute; inset:0; display:flex; flex-direction:column; justify-content:center; padding:clamp(20px,5vw,80px); box-sizing:border-box; {{ revealedPhaseStyle }}">
+      <div style="position:absolute; top:50%; left:50%; width:min(120vw,1400px); height:min(120vw,1400px); transform:translate(-50%,-50%); border:1px dashed rgba(255,19,97,.35); border-radius:50%; animation:cd-spin 40s linear infinite"></div>
+      <div style="position:relative; display:flex; flex-direction:column; gap:clamp(12px,2vw,20px); max-width:1200px">
+        <div style="display:flex; flex-wrap:wrap; gap:10px; font-family:'Space Mono',monospace; font-size:11px; letter-spacing:.24em">
+          <span style="background:#FF1361; color:#fff; padding:6px 12px">SITE OCCUPIED</span>
+          <span style="border:1px solid #FF1361; color:#FF6FA0; padding:6px 12px">ORBITAL BASE · SECTOR 07</span>
+          <span style="border:1px solid rgba(255,229,0,.6); color:#FFE500; padding:6px 12px">CLEARANCE: NONE</span>
         </div>
-        <div style="position:absolute; right:clamp(16px,4vw,60px); bottom:clamp(16px,4vw,48px); font-family:'Space Mono',monospace; font-size:11px; letter-spacing:.2em; color:#FF6FA0; animation:cd-float 3.4s ease-in-out infinite">SCROLL ↓ 저항은 무의미하다</div>
+        <h1 style="margin:0; font-family:'Black Han Sans',sans-serif; font-size:clamp(72px,18vw,240px); line-height:.82; letter-spacing:-.02em; color:#FF1361; text-shadow:6px 6px 0 #08040a, -3px -3px 0 rgba(255,255,255,.9); animation:cd-glitch-soft 5s infinite">코코단</h1>
+        <div style="display:flex; flex-wrap:wrap; align-items:baseline; gap:16px">
+          <span style="font-family:'Space Mono',monospace; font-size:clamp(14px,2.6vw,28px); letter-spacing:.5em; color:#FFE9F0">COCODAN</span>
+          <span style="font-family:'Space Mono',monospace; font-size:12px; letter-spacing:.2em; color:#FF6FA0">비밀 결사 · 우주 규모 팀 소개 조직</span>
+        </div>
+        <p style="margin:0; max-width:620px; font-size:clamp(14px,1.5vw,17px); line-height:1.9; color:#FFD1E1; text-wrap:pretty">이 페이지는 방금 코코단에 의해 점령되었습니다. 원래의 팀 소개는 폐기되었으며, 지금부터 세 명의 요원이 직접 자기소개를 시작합니다. 도망칠 수 없습니다. 스크롤만 가능합니다.</p>
+        <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:6px">
+          <a href="#dossier" style="background:#FF1361; color:#fff; padding:14px 26px; font-family:'Space Mono',monospace; font-size:12px; letter-spacing:.18em; display:inline-block" style-hover="background:#FFE500; color:#08040a; transform:translate(-3px,-3px)">▶ 침입자 DATABASE</a>
+          <a href="#vote" style="border:1px solid #FF1361; color:#FF6FA0; padding:14px 26px; font-family:'Space Mono',monospace; font-size:12px; letter-spacing:.18em; display:inline-block" style-hover="background:#FF1361; color:#fff">투표하러 가기(?)</a>
+        </div>
       </div>
-    </sc-if>
+      <div style="position:absolute; right:clamp(16px,4vw,60px); bottom:clamp(16px,4vw,48px); font-family:'Space Mono',monospace; font-size:11px; letter-spacing:.2em; color:#FF6FA0; animation:cd-float 3.4s ease-in-out infinite">SCROLL ↓ 저항은 무의미하다</div>
+    </div>
 
     <sc-if value="{{ showSkip }}" hint-placeholder-val="{{ true }}">
       <button onClick="{{ skipIntro }}" style="position:absolute; right:18px; bottom:18px; z-index:12; background:rgba(8,4,10,.7); color:#FF6FA0; border:1px solid #FF1361; padding:8px 14px; font-family:'Space Mono',monospace; font-size:11px; letter-spacing:.16em; cursor:pointer" style-hover="background:#FF1361; color:#fff">SKIP INTRO ▸</button>
     </sc-if>
+
+    <button onClick="{{ soundToggle }}" style="position:absolute; left:18px; bottom:18px; z-index:12; background:rgba(8,4,10,.7); color:#FF6FA0; border:1px solid #FF1361; padding:8px 10px; display:flex; align-items:center; cursor:pointer" style-hover="background:#FF1361; color:#fff">
+      <sc-if value="{{ soundOn }}" hint-placeholder-val="{{ false }}">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 9v6h4l5 5V4L7 9H3z"></path>
+          <path d="M16 8a5 5 0 0 1 0 8"></path>
+          <path d="M19 5a9 9 0 0 1 0 14"></path>
+        </svg>
+      </sc-if>
+      <sc-if value="{{ soundOff }}" hint-placeholder-val="{{ true }}">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 9v6h4l5 5V4L7 9H3z"></path>
+          <line x1="23" y1="9" x2="17" y2="15"></line>
+          <line x1="17" y1="9" x2="23" y2="15"></line>
+        </svg>
+      </sc-if>
+    </button>
   </section>
 
   <div style="position:relative; z-index:5; background:#FF1361; color:#fff; overflow:hidden; border-top:2px solid #08040a; border-bottom:2px solid #08040a">
@@ -403,11 +414,12 @@ class Component extends DCLogic {
     dossier: null,
     voted: false,
     missionPct: 0,
-    sound: true
+    soundOn: false
   };
 
   startIntro() {
     const speed = this.props.introSpeed ?? 1;
+    const jitter = (ms, spread) => ms + (Math.random() * 2 - 1) * spread;
 
     clearTimeout(this.t0);
     clearTimeout(this.t1);
@@ -417,21 +429,21 @@ class Component extends DCLogic {
 
       this.t0 = setTimeout(() => {
         this.sfxScan();
-      }, 2500 * speed);
+      }, jitter(2500, 220) * speed);
 
       this.t1 = setTimeout(() => {
         this.setState({ phase: 1 });
         this.sfxIntrusion();
-      }, 5100 * speed);
+      }, jitter(5100, 260) * speed);
 
       this.t2 = setTimeout(() => {
         this.setState({ phase: 2 });
-      }, 9100 * speed);
+      }, jitter(9100, 300) * speed);
 
     });
   }
 
-  async startFromClick() {
+  async enableSound() {
     const ac = this.ac();
 
     if (ac && ac.state !== 'running') {
@@ -442,27 +454,44 @@ class Component extends DCLogic {
       }
     }
 
-    this.startIntro();
+    if (!this.state.soundOn) {
+      this.setState({ soundOn: true });
+    }
+  }
+
+  muteSound() {
+    const ac = this.ac();
+
+    if (ac) {
+      ac.suspend().catch(() => {});
+    }
+
+    if (this.state.soundOn) {
+      this.setState({ soundOn: false });
+    }
   }
 
   componentDidMount() {
 
     /*
       ★ 핵심 부분 ★
-      페이지는 기존 디자인 그대로 보여주고,
-      사용자가 화면 아무 곳이나 한 번 클릭하면
-      오디오를 활성화한 뒤 인트로를 시작합니다.
+      인트로는 페이지가 열리자마자 바로 재생됩니다.
+      오디오는 사용자가 페이지 어디든 처음 상호작용하는
+      순간 조용히 활성화되고, 좌측 하단의 스피커 아이콘으로
+      언제든 직접 켜고 끌 수 있습니다.
     */
 
-    this._startHandler = () => {
-      this.startFromClick();
+    this._unlockAudio = () => {
+      this.enableSound();
     };
 
     window.addEventListener(
       'pointerdown',
-      this._startHandler,
+      this._unlockAudio,
       { once: true }
     );
+
+    this.startIntro();
 
 
     /* 기존 스크롤 등장 애니메이션 */
@@ -571,10 +600,10 @@ class Component extends DCLogic {
       this.io.disconnect();
     }
 
-    if (this._startHandler) {
+    if (this._unlockAudio) {
       window.removeEventListener(
         'pointerdown',
-        this._startHandler
+        this._unlockAudio
       );
     }
 
@@ -731,7 +760,7 @@ class Component extends DCLogic {
 
     if (
       !ac ||
-      !this.state.sound
+      !this.state.soundOn
     ) return;
 
     const t =
@@ -776,7 +805,7 @@ class Component extends DCLogic {
 
     if (
       !ac ||
-      !this.state.sound
+      !this.state.soundOn
     ) return;
 
     const t =
@@ -856,16 +885,23 @@ class Component extends DCLogic {
     const p =
       this.state.phase;
 
+    const phaseStyle = (active) => (
+      'opacity:' + (active ? 1 : 0) + '; ' +
+      'filter:' + (active ? 'blur(0px) saturate(1)' : 'blur(16px) saturate(.35)') + '; ' +
+      'pointer-events:' + (active ? 'auto' : 'none') + '; ' +
+      'transition:opacity 1.05s cubic-bezier(.22,.7,.2,1), filter 1.05s cubic-bezier(.22,.7,.2,1)'
+    );
+
     return {
 
-      phaseNormal:
-        p === 0,
+      normalPhaseStyle:
+        phaseStyle(p === 0),
 
-      phaseWarning:
-        p === 1,
+      warningPhaseStyle:
+        phaseStyle(p === 1),
 
-      phaseRevealed:
-        p === 2,
+      revealedPhaseStyle:
+        phaseStyle(p === 2),
 
       flashing:
         p === 1,
@@ -882,6 +918,22 @@ class Component extends DCLogic {
         this.setState({
           phase: 2
         });
+
+      },
+
+      soundOn:
+        this.state.soundOn,
+
+      soundOff:
+        !this.state.soundOn,
+
+      soundToggle: () => {
+
+        if (this.state.soundOn) {
+          this.muteSound();
+        } else {
+          this.enableSound();
+        }
 
       },
 
