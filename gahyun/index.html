@@ -398,164 +398,588 @@
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;autoIntro&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;연출&quot;},&quot;introSpeed&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:1,&quot;min&quot;:0.4,&quot;max&quot;:2,&quot;step&quot;:0.1,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;연출&quot;},&quot;dodgeButton&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;인터랙션&quot;}}">
 class Component extends DCLogic {
-  state = { phase: 0, dossier: null, voted: false, missionPct: 0, sound: true };
+  state = {
+    phase: 0,
+    dossier: null,
+    voted: false,
+    missionPct: 0,
+    sound: true
+  };
 
   startIntro() {
     const speed = this.props.introSpeed ?? 1;
-    clearTimeout(this.t0); clearTimeout(this.t1); clearTimeout(this.t2);
+
+    clearTimeout(this.t0);
+    clearTimeout(this.t1);
+    clearTimeout(this.t2);
+
     this.setState({ phase: 0 }, () => {
-      this.t0 = setTimeout(() => this.sfxScan(), 2500 * speed);
-      this.t1 = setTimeout(() => { this.setState({ phase: 1 }); this.sfxIntrusion(); }, 5100 * speed);
-      this.t2 = setTimeout(() => this.setState({ phase: 2 }), 9100 * speed);
+
+      this.t0 = setTimeout(() => {
+        this.sfxScan();
+      }, 2500 * speed);
+
+      this.t1 = setTimeout(() => {
+        this.setState({ phase: 1 });
+        this.sfxIntrusion();
+      }, 5100 * speed);
+
+      this.t2 = setTimeout(() => {
+        this.setState({ phase: 2 });
+      }, 9100 * speed);
+
     });
   }
 
-  armAudioGesture() {
+  async startFromClick() {
     const ac = this.ac();
-    if (ac && ac.state === 'running') return;
-    const go = () => {
-      const a = this.ac();
-      if (a && a.state !== 'running') return;
-      off();
-      if (this.state.phase < 2) this.startIntro();
-    };
-    const off = () => ['pointerdown', 'keydown', 'wheel', 'touchstart'].forEach(t => window.removeEventListener(t, go));
-    ['pointerdown', 'keydown', 'wheel', 'touchstart'].forEach(t => window.addEventListener(t, go, { passive: true }));
-    this._offGesture = off;
+
+    if (ac && ac.state !== 'running') {
+      try {
+        await ac.resume();
+      } catch (e) {
+        console.warn('AudioContext resume failed:', e);
+      }
+    }
+
+    this.startIntro();
   }
 
   componentDidMount() {
-    const auto = this.props.autoIntro ?? true;
-    const speed = this.props.introSpeed ?? 1;
-    if (auto) {
-      this.startIntro();
-      this.armAudioGesture();
-    } else {
-      this.setState({ phase: 2 });
-    }
+
+    /*
+      ★ 핵심 부분 ★
+      페이지는 기존 디자인 그대로 보여주고,
+      사용자가 화면 아무 곳이나 한 번 클릭하면
+      오디오를 활성화한 뒤 인트로를 시작합니다.
+    */
+
+    this._startHandler = () => {
+      this.startFromClick();
+    };
+
+    window.addEventListener(
+      'pointerdown',
+      this._startHandler,
+      { once: true }
+    );
+
+
+    /* 기존 스크롤 등장 애니메이션 */
 
     this.io = new IntersectionObserver((entries) => {
+
       entries.forEach((e) => {
+
         if (!e.isIntersecting) return;
+
         const el = e.target;
+
         if (el.hasAttribute('data-bar')) {
-          el.style.width = el.getAttribute('data-bar') + '%';
+
+          el.style.width =
+            el.getAttribute('data-bar') + '%';
+
         } else {
+
           el.style.opacity = '1';
           el.style.transform = 'translateY(0)';
+
         }
+
         this.io.unobserve(el);
+
       });
-    }, { threshold: 0.18, rootMargin: '0px 0px -8% 0px' });
+
+    }, {
+      threshold: 0.18,
+      rootMargin: '0px 0px -8% 0px'
+    });
+
     this.scan();
 
+
+    /* Mission 진행률 */
+
     this.onScroll = () => {
-      const max = document.documentElement.scrollHeight - window.innerHeight;
-      const pct = max > 0 ? Math.min(100, Math.round((window.scrollY / max) * 100)) : 0;
-      if (pct !== this.state.missionPct) this.setState({ missionPct: pct });
+
+      const max =
+        document.documentElement.scrollHeight -
+        window.innerHeight;
+
+      const pct =
+        max > 0
+          ? Math.min(
+              100,
+              Math.round(
+                (window.scrollY / max) * 100
+              )
+            )
+          : 0;
+
+      if (pct !== this.state.missionPct) {
+
+        this.setState({
+          missionPct: pct
+        });
+
+      }
+
     };
-    window.addEventListener('scroll', this.onScroll, { passive: true });
+
+    window.addEventListener(
+      'scroll',
+      this.onScroll,
+      { passive: true }
+    );
   }
 
-  componentDidUpdate() { this.scan(); }
+  componentDidUpdate() {
+    this.scan();
+  }
 
   scan() {
+
     if (!this.io) return;
+
     requestAnimationFrame(() => {
-      document.querySelectorAll('[data-reveal],[data-bar]').forEach((el) => {
-        if (el.__cdSeen) return;
-        el.__cdSeen = true;
-        this.io.observe(el);
-      });
+
+      document
+        .querySelectorAll(
+          '[data-reveal],[data-bar]'
+        )
+        .forEach((el) => {
+
+          if (el.__cdSeen) return;
+
+          el.__cdSeen = true;
+
+          this.io.observe(el);
+
+        });
+
     });
   }
 
   componentWillUnmount() {
-    clearTimeout(this.t0); clearTimeout(this.t1); clearTimeout(this.t2);
-    if (this._offGesture) this._offGesture();
-    if (this.io) this.io.disconnect();
-    window.removeEventListener('scroll', this.onScroll);
+
+    clearTimeout(this.t0);
+    clearTimeout(this.t1);
+    clearTimeout(this.t2);
+
+    if (this.io) {
+      this.io.disconnect();
+    }
+
+    if (this._startHandler) {
+      window.removeEventListener(
+        'pointerdown',
+        this._startHandler
+      );
+    }
+
+    window.removeEventListener(
+      'scroll',
+      this.onScroll
+    );
   }
 
+
+  /* =========================
+     AUDIO
+     ========================= */
+
   ac() {
-    if (!this._ac) { const C = window.AudioContext || window.webkitAudioContext; if (!C) return null; this._ac = new C(); }
-    if (this._ac.state === 'suspended') this._ac.resume();
+
+    if (!this._ac) {
+
+      const C =
+        window.AudioContext ||
+        window.webkitAudioContext;
+
+      if (!C) return null;
+
+      this._ac = new C();
+    }
+
     return this._ac;
   }
 
-  tone(freq, t0, dur, { type = 'square', gain = 0.06, to = null } = {}) {
-    const ac = this.ac(); if (!ac) return;
-    const o = ac.createOscillator(), g = ac.createGain();
-    o.type = type; o.frequency.setValueAtTime(freq, t0);
-    if (to) o.frequency.exponentialRampToValueAtTime(to, t0 + dur);
-    g.gain.setValueAtTime(0.0001, t0);
-    g.gain.exponentialRampToValueAtTime(gain, t0 + 0.012);
-    g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
-    o.connect(g).connect(ac.destination); o.start(t0); o.stop(t0 + dur + 0.03);
+  tone(
+    freq,
+    t0,
+    dur,
+    {
+      type = 'square',
+      gain = 0.06,
+      to = null
+    } = {}
+  ) {
+
+    const ac = this.ac();
+
+    if (!ac) return;
+
+    const o = ac.createOscillator();
+    const g = ac.createGain();
+
+    o.type = type;
+
+    o.frequency.setValueAtTime(
+      freq,
+      t0
+    );
+
+    if (to) {
+
+      o.frequency.exponentialRampToValueAtTime(
+        to,
+        t0 + dur
+      );
+
+    }
+
+    g.gain.setValueAtTime(
+      0.0001,
+      t0
+    );
+
+    g.gain.exponentialRampToValueAtTime(
+      gain,
+      t0 + 0.012
+    );
+
+    g.gain.exponentialRampToValueAtTime(
+      0.0001,
+      t0 + dur
+    );
+
+    o.connect(g).connect(ac.destination);
+
+    o.start(t0);
+    o.stop(t0 + dur + 0.03);
   }
 
-  noise(t0, dur, gain = 0.05) {
-    const ac = this.ac(); if (!ac) return;
-    const len = Math.floor(ac.sampleRate * dur);
-    const buf = ac.createBuffer(1, len, ac.sampleRate), d = buf.getChannelData(0);
-    for (let i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * (1 - i / len);
-    const s = ac.createBufferSource(); s.buffer = buf;
-    const f = ac.createBiquadFilter(); f.type = 'bandpass'; f.frequency.value = 1400; f.Q.value = 0.7;
-    const g = ac.createGain(); g.gain.value = gain;
-    s.connect(f).connect(g).connect(ac.destination); s.start(t0);
+  noise(
+    t0,
+    dur,
+    gain = 0.05
+  ) {
+
+    const ac = this.ac();
+
+    if (!ac) return;
+
+    const len =
+      Math.floor(
+        ac.sampleRate * dur
+      );
+
+    const buf =
+      ac.createBuffer(
+        1,
+        len,
+        ac.sampleRate
+      );
+
+    const d =
+      buf.getChannelData(0);
+
+    for (
+      let i = 0;
+      i < len;
+      i++
+    ) {
+
+      d[i] =
+        (Math.random() * 2 - 1) *
+        (1 - i / len);
+
+    }
+
+    const s =
+      ac.createBufferSource();
+
+    s.buffer = buf;
+
+    const f =
+      ac.createBiquadFilter();
+
+    f.type = 'bandpass';
+    f.frequency.value = 1400;
+    f.Q.value = 0.7;
+
+    const g =
+      ac.createGain();
+
+    g.gain.value = gain;
+
+    s
+      .connect(f)
+      .connect(g)
+      .connect(ac.destination);
+
+    s.start(t0);
   }
+
+
+  /* 첫 번째 스캔 효과음 */
 
   sfxScan() {
-    const ac = this.ac(); if (!ac || !this.state.sound) return;
-    const t = ac.currentTime;
-    for (let i = 0; i < 4; i++) this.tone(880, t + i * 0.62, 0.07, { type: 'sine', gain: 0.035 });
-    this.tone(180, t, 2.4, { type: 'sine', gain: 0.02, to: 200 });
+
+    const ac = this.ac();
+
+    if (
+      !ac ||
+      !this.state.sound
+    ) return;
+
+    const t =
+      ac.currentTime;
+
+    for (
+      let i = 0;
+      i < 4;
+      i++
+    ) {
+
+      this.tone(
+        880,
+        t + i * 0.62,
+        0.07,
+        {
+          type: 'sine',
+          gain: 0.035
+        }
+      );
+
+    }
+
+    this.tone(
+      180,
+      t,
+      2.4,
+      {
+        type: 'sine',
+        gain: 0.02,
+        to: 200
+      }
+    );
   }
+
+
+  /* WARNING 침입 효과음 */
 
   sfxIntrusion() {
-    const ac = this.ac(); if (!ac || !this.state.sound) return;
-    const t = ac.currentTime;
-    this.tone(1200, t, 0.5, { type: 'sawtooth', gain: 0.08, to: 90 });
-    this.noise(t, 0.45, 0.07);
-    for (let i = 0; i < 5; i++) {
-      this.tone(i % 2 ? 740 : 620, t + 0.55 + i * 0.34, 0.22, { type: 'square', gain: 0.055 });
+
+    const ac = this.ac();
+
+    if (
+      !ac ||
+      !this.state.sound
+    ) return;
+
+    const t =
+      ac.currentTime;
+
+    this.tone(
+      1200,
+      t,
+      0.5,
+      {
+        type: 'sawtooth',
+        gain: 0.08,
+        to: 90
+      }
+    );
+
+    this.noise(
+      t,
+      0.45,
+      0.07
+    );
+
+    for (
+      let i = 0;
+      i < 5;
+      i++
+    ) {
+
+      this.tone(
+        i % 2 ? 740 : 620,
+        t + 0.55 + i * 0.34,
+        0.22,
+        {
+          type: 'square',
+          gain: 0.055
+        }
+      );
+
     }
-    this.noise(t + 1.9, 0.6, 0.05);
-    this.tone(70, t + 2.4, 0.9, { type: 'sawtooth', gain: 0.07, to: 40 });
+
+    this.noise(
+      t + 1.9,
+      0.6,
+      0.05
+    );
+
+    this.tone(
+      70,
+      t + 2.4,
+      0.9,
+      {
+        type: 'sawtooth',
+        gain: 0.07,
+        to: 40
+      }
+    );
   }
 
-  pick(k) { this.setState((s) => ({ dossier: s.dossier === k ? null : k })); }
+
+  /* =========================
+     기존 인터랙션
+     ========================= */
+
+  pick(k) {
+
+    this.setState((s) => ({
+      dossier:
+        s.dossier === k
+          ? null
+          : k
+    }));
+
+  }
 
   renderVals() {
-    const p = this.state.phase;
+
+    const p =
+      this.state.phase;
+
     return {
-      phaseNormal: p === 0,
-      phaseWarning: p === 1,
-      phaseRevealed: p === 2,
-      flashing: p === 1,
-      showSkip: p < 2,
-      skipIntro: () => { clearTimeout(this.t1); clearTimeout(this.t2); this.setState({ phase: 2 }); },
-      selectRosa: () => this.pick('rosa'),
-      selectRoy: () => this.pick('roy'),
-      selectNyang: () => this.pick('nyang'),
-      dossierRosa: this.state.dossier === 'rosa',
-      dossierRoy: this.state.dossier === 'roy',
-      dossierNyang: this.state.dossier === 'nyang',
-      missionPct: this.state.missionPct,
-      missionWidth: this.state.missionPct + '%',
-      voteOpen: !this.state.voted,
-      voteDone: this.state.voted,
-      voteYes: () => this.setState({ voted: true }),
-      resetVote: () => this.setState({ voted: false }),
-      noBtnRef: (el) => { this.noBtn = el; },
+
+      phaseNormal:
+        p === 0,
+
+      phaseWarning:
+        p === 1,
+
+      phaseRevealed:
+        p === 2,
+
+      flashing:
+        p === 1,
+
+      showSkip:
+        p < 2,
+
+      skipIntro: () => {
+
+        clearTimeout(this.t0);
+        clearTimeout(this.t1);
+        clearTimeout(this.t2);
+
+        this.setState({
+          phase: 2
+        });
+
+      },
+
+      selectRosa:
+        () => this.pick('rosa'),
+
+      selectRoy:
+        () => this.pick('roy'),
+
+      selectNyang:
+        () => this.pick('nyang'),
+
+      dossierRosa:
+        this.state.dossier === 'rosa',
+
+      dossierRoy:
+        this.state.dossier === 'roy',
+
+      dossierNyang:
+        this.state.dossier === 'nyang',
+
+      missionPct:
+        this.state.missionPct,
+
+      missionWidth:
+        this.state.missionPct + '%',
+
+      voteOpen:
+        !this.state.voted,
+
+      voteDone:
+        this.state.voted,
+
+      voteYes: () =>
+        this.setState({
+          voted: true
+        }),
+
+      resetVote: () =>
+        this.setState({
+          voted: false
+        }),
+
+      noBtnRef: (el) => {
+        this.noBtn = el;
+      },
+
       dodge: (e) => {
-        if (this.props.dodgeButton === false) { this.setState({ voted: true }); return; }
-        const el = this.noBtn; if (!el) return;
-        const x = (Math.random() * 2 - 1) * 180;
-        const y = (Math.random() * 2 - 1) * 90;
-        el.style.transform = 'translate(' + x.toFixed(0) + 'px,' + y.toFixed(0) + 'px) rotate(' + (Math.random() * 16 - 8).toFixed(1) + 'deg)';
-        if (e && e.type === 'click') this.setState({ voted: true });
+
+        if (
+          this.props.dodgeButton === false
+        ) {
+
+          this.setState({
+            voted: true
+          });
+
+          return;
+        }
+
+        const el =
+          this.noBtn;
+
+        if (!el) return;
+
+        const x =
+          (Math.random() * 2 - 1) *
+          180;
+
+        const y =
+          (Math.random() * 2 - 1) *
+          90;
+
+        el.style.transform =
+          'translate(' +
+          x.toFixed(0) +
+          'px,' +
+          y.toFixed(0) +
+          'px) rotate(' +
+          (
+            Math.random() * 16 -
+            8
+          ).toFixed(1) +
+          'deg)';
+
+        if (
+          e &&
+          e.type === 'click'
+        ) {
+
+          this.setState({
+            voted: true
+          });
+
+        }
+
       }
+
     };
   }
 }
