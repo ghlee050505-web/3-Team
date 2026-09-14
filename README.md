@@ -13,7 +13,7 @@
 ![Last commit](https://img.shields.io/github/last-commit/ghlee050505-web/3-Team)
 ![Closed issues](https://img.shields.io/github/issues-closed/ghlee050505-web/3-Team)
 
-[**팀 페이지 보기**](https://limahmadarif.github.io/kokodan-team-page/) · [칸반 보드](https://github.com/users/ghlee050505-web/projects/5) · [마일스톤](https://github.com/ghlee050505-web/3-Team/milestones) · [회의록](https://github.com/ygrcap1234-byte/3-TEAM/tree/main/회의록)
+[**팀 페이지 보기**](https://limahmadarif.github.io/kokodan-team-page/) · [칸반 보드](https://github.com/users/ghlee050505-web/projects/5) · [마일스톤](https://github.com/ghlee050505-web/3-Team/milestones)
 
 </div>
 
